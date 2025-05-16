@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/login', function() {
-    return 'Login';
-})->name('login');
+Route::get('/sys/login', [AuthController::class, 'login'])->name('login');
+Route::post('/sys/login', [AuthController::class, 'store'])->name('login.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('sys')->group(function() {
