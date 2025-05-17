@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sakoola | @yield('title')</title>
+  <title>Sakoola | @yield('title') | {{ request()->path() }}</title>
   <link rel="icon" type="image/x-icon" href="{{ asset('/admin/dist/img/AdminLTELogo.png') }}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="{{ asset('/admin/dist/css/adminlte.min.css') }}">
@@ -39,7 +39,7 @@
     <!-- Brand Logo -->
     <a href="{{ route('sys.dashboard') }}" class="brand-link">
       <img src="{{ asset('/admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Sakoola</span>
     </a>
 
     <!-- Sidebar -->
@@ -58,7 +58,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ route('sys.dashboard') }}" class="nav-link">
+            <a href="{{ route('sys.dashboard') }}" class="nav-link {{ request()->routeIs('sys.dashboard') ? 'active' : '' }}">
               <i class="bi bi-house"></i>
               <p>Dashboard</p>
             </a>
