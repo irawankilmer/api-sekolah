@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\TagController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -18,11 +20,19 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function() {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::prefix('sys')->group(function() {
-        Route::name('sys.')->group(function() {
-            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        });
+  Route::prefix('sys')->group(function() {
+    Route::name('sys.')->group(function() {
+      Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+      Route::controller(CategoryController::class)->group(function() {
+        Route::get('/kategori', 'index')->name('kategori');
+      });
+
+      Route::controller(TagController::class)->group(function() {
+        Route::get('/tag', 'index')->name('tag');
+      });
     });
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+  });
 });

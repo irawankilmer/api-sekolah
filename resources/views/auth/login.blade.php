@@ -20,7 +20,7 @@
    <a href="{{ route('home') }}" class="h1"><b>Sak</b>oola</a>
   </div>
   <div class="card-body">
-   <p class="login-box-msg">Sign in to start your session</p>
+   <p class="login-box-msg">Selamat Datang Kembali</p>
 
    <form action="{{ route('login.store') }}" method="post" onsubmit="disableSubmitButton()">
     @csrf
@@ -59,7 +59,7 @@
      </div>
      <!-- /.col -->
      <div class="col-4">
-      <button type="submit" class="btn btn-primary btn-block" id="submit-btn">
+      <button type="submit" class="btn btn-outline-secondary btn-block" id="submit-btn">
        <span id="button-text">Login</span>
        <i class="bi bi-box-arrow-in-right" id="login-icon"></i>
        <span id="loading-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
