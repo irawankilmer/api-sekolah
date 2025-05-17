@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Tambah Tag</h3>
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="col-md-8">
+  <div class="col-md-7">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Data Tag</h3>
@@ -68,18 +68,16 @@
                 <td>{{ $tag['name'] }}</td>
                 <td>{{ $tag['description'] }}</td>
                 <td>
-                  <a href="" class="btn text-bg-dark btn-sm">
+                  <a href="{{ route('sys.tag.edit', $tag->id) }}" class="btn text-bg-dark btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                     <i class="bi bi-pencil-square"></i>
-                    Edit
                   </a>
-
+                  |
                   <form id="delete-form-{{ $tag->id }}" action="{{ route('sys.tag.destroy', $tag->id) }}" method="POST" class="d-inline-block">
                     @csrf
                     @method('DELETE')
-                    <a href="#" class="btn btn-rounded btn-danger btn-sm" onclick="confirmDelete('{{ $tag->id }}')">
+                    <button type="submit" class="btn text-bg-dark btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus" onclick="confirmDelete(event, '{{ $tag->id }}')">
                       <i class="bi bi-trash"></i>
-                      Hapus
-                    </a>
+                    </button>
                   </form>
                 </td>
               </tr>
@@ -121,7 +119,8 @@
   </script>
 
   <script>
-    function confirmDelete(tagId) {
+    function confirmDelete(event, tagId) {
+      event.preventDefault();
       Swal.fire({
         title: "Apakah Anda yakin?",
         text: "Data yang dihapus tidak bisa dikembalikan! Termasuk semua data transaksi yang terhubung",
@@ -137,5 +136,11 @@
         }
       });
     }
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $('[data-bs-toggle="tooltip"]').tooltip();
+    });
   </script>
 @endpush

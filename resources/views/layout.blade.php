@@ -57,8 +57,8 @@
           </li>
 
           <li class="nav-header">HALAMAN DEPAN</li>
-          <li class="nav-item {{ request()->routeIs(['sys.kategori', 'sys.tag']) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->routeIs(['sys.kategori', 'sys.tag']) ? 'active' : '' }}">
+          <li class="nav-item {{ request()->routeIs(['sys.kategori', 'sys.tag', 'sys.tag.edit']) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->routeIs(['sys.kategori', 'sys.tag', 'sys.tag.edit']) ? 'active' : '' }}">
               <i class="left bi bi-newspaper"></i>
               <p>
                 Postingan
@@ -74,7 +74,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('sys.tag') }}" class="nav-link {{ request()->routeIs('sys.tag') ? 'active' : '' }}">
+                <a href="{{ route('sys.tag') }}" class="nav-link {{ request()->routeIs(['sys.tag', 'sys.tag.edit']) ? 'active' : '' }}">
                   <i class="bi bi-arrow-return-right"></i>
                   <p>Tag</p>
                 </a>
