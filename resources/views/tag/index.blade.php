@@ -16,13 +16,18 @@
 
       <div class="card-body">
 
-        <form action="" onsubmit="disableSubmitButton()">
+        <form action="{{ route('sys.tag.store') }}" method="POST" onsubmit="disableSubmitButton()">
+          @csrf
+
+          @error('name')
+          <span class="badge bg-danger">{{ $message }}</span>
+          @enderror
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Nama Tag...">
+            <input type="text" class="form-control" name="name" placeholder="Nama Tag...">
           </div>
 
           <div class="input-group mb-3">
-            <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Deskripsi..."></textarea>
+            <textarea name="description" id="" cols="30" rows="10" class="form-control" placeholder="Deskripsi...">{{ old('description') }}</textarea>
           </div>
 
           <div class="input-group d-flex justify-content-end">
@@ -62,7 +67,21 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $tag['name'] }}</td>
                 <td>{{ $tag['description'] }}</td>
-                <td>edit | hapus</td>
+                <td>
+                  <a href="" class="btn text-bg-dark btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit
+                  </a>
+
+                  <form id="delete-form-{{ $tag->id }}" action="{{ route('sys.tag.destroy', $tag->id) }}" method="POST" class="d-inline-block">
+                    @csrf
+                    @method('DELETE')
+                    <a href="#" class="btn btn-rounded btn-danger btn-sm" onclick="confirmDelete('{{ $tag->id }}')">
+                      <i class="bi bi-trash"></i>
+                      Hapus
+                    </a>
+                  </form>
+                </td>
               </tr>
             @endforeach
             </tbody>
@@ -97,6 +116,26 @@
       if (addIcon) {
         addIcon.style.display = 'none';
       }
+    }
+
+  </script>
+
+  <script>
+    function confirmDelete(tagId) {
+      Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Data yang dihapus tidak bisa dikembalikan! Termasuk semua data transaksi yang terhubung",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Batal"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('delete-form-' + tagId).submit();
+        }
+      });
     }
   </script>
 @endpush

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTagRequest;
 use App\Models\Tag;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -13,7 +15,7 @@ class TagController extends Controller
      */
     public function index(): View
     {
-      $tags = Tag::all();
+      $tags = Tag::orderBy('updated_at', 'DESC')->get();
       return view('tag.index', compact('tags'));
     }
 
@@ -28,9 +30,14 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTagRequest $request): RedirectResponse
     {
-        //
+        Tag::create([
+          'name'  => $request->get('name'),
+          'description'  => $request->get('description'),
+        ]);
+
+        return redirect()->route('sys.tag')->with('success', 'Tag berhasil ditambahkan!!');
     }
 
     /**
@@ -62,6 +69,6 @@ class TagController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd($id);
     }
 }

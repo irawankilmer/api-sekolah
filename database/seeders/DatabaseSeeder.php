@@ -49,13 +49,5 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $siswa->assignRole('Siswa');
-
-        Category::factory()
-          ->count(10)
-          ->create();
-
-        Tag::factory()
-          ->count(10)
-          ->create();
     }
 }

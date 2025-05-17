@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
 
       Route::controller(TagController::class)->group(function() {
         Route::get('/tag', 'index')->name('tag');
+        Route::post('/tag', 'store')->name('tag.store');
+        Route::delete('/tag/{id}', 'destroy')->name('tag.destroy');
       });
     });
 
