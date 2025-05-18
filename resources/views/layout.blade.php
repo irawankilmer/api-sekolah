@@ -9,20 +9,21 @@
   <link rel="stylesheet" href="{{ asset('/admin/dist/css/adminlte.min.css') }}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css">
   @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini">
-
-
 <div class="wrapper">
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="bi bi-layout-sidebar"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+          <i class="bi bi-layout-sidebar"></i>
+        </a>
       </li>
     </ul>
 
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ms-auto">
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="bi bi-arrows-angle-expand"></i>
@@ -57,8 +58,8 @@
           </li>
 
           <li class="nav-header">HALAMAN DEPAN</li>
-          <li class="nav-item {{ request()->routeIs(['sys.kategori', 'sys.tag', 'sys.tag.edit']) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->routeIs(['sys.kategori', 'sys.tag', 'sys.tag.edit']) ? 'active' : '' }}">
+          <li class="nav-item {{ request()->routeIs(['sys.kategori', 'sys.tag']) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->routeIs(['sys.kategori', 'sys.tag']) ? 'active' : '' }}">
               <i class="left bi bi-newspaper"></i>
               <p>
                 Postingan
@@ -74,7 +75,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('sys.tag') }}" class="nav-link {{ request()->routeIs(['sys.tag', 'sys.tag.edit']) ? 'active' : '' }}">
+                <a href="{{ route('sys.tag') }}" class="nav-link {{ request()->routeIs(['sys.tag']) ? 'active' : '' }}">
                   <i class="bi bi-arrow-return-right"></i>
                   <p>Tag</p>
                 </a>
@@ -131,8 +132,8 @@
   </aside>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('/admin/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('/admin/dist/js/adminlte.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @stack('scripts')
