@@ -68,14 +68,14 @@
                 <td>{{ $tag['name'] }}</td>
                 <td>{{ $tag['description'] }}</td>
                 <td>
-                  <a href="{{ route('sys.tag.edit', $tag->id) }}" class="btn text-bg-dark btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                  <a href="#" class="btn text-bg-dark btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $tag->id }}" data-bs-placement="top" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                   </a>
                   |
                   <form id="delete-form-{{ $tag->id }}" action="{{ route('sys.tag.destroy', $tag->id) }}" method="POST" class="d-inline-block">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn text-bg-dark btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus" onclick="confirmDelete(event, '{{ $tag->id }}')">
+                    <button type="submit" class="btn text-bg-dark btn-sm" data-bs-placement="top" title="Hapus" onclick="confirmDelete(event, '{{ $tag->id }}')">
                       <i class="bi bi-trash"></i>
                     </button>
                   </form>
@@ -89,10 +89,73 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editModal{{ $tag->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $tag->id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('sys.tag.update', $tag->id) }}" method="POST" onsubmit="disableEditButton()">
+        @csrf
+        @method('PUT')
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel{{ $tag->id }}">Edit Tag</h5>
+        </div>
+        <div class="modal-body">
+          @error('edit.name')
+          <span class="badge bg-danger">{{ $message }}</span>
+          @enderror
+          <div class="mb-3">
+            <label for="name{{ $tag->id }}" class="form-label">Nama Tag</label>
+            <input
+              type="text"
+              class="form-control" id="name{{ $tag->id }}"
+              name="edit[name]"
+              value="{{ old('edit.name', $tag->name) }}"
+            >
+          </div>
+          <div class="mb-3">
+            <label for="description{{ $tag->id }}" class="form-label">Deskripsi</label>
+            <textarea
+              class="form-control"
+              id="description{{ $tag->id }}"
+              name="edit[description]"
+              rows="3"
+            >{{ old('edit.description', $tag->description) }}</textarea>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            <i class="bi bi-box-arrow-in-left"></i> Batal
+          </button>
+          <button type="submit" class="btn btn-outline-secondary" id="edit-btn">
+            <span id="buttonEdit-text">Edit</span>
+            <i class="bi bi-pencil-square" id="edit-icon"></i>
+            <span id="loadingEdit-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@if ($errors->any() && session('edit_tag_id'))
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const modalId = "editModal{{ session('edit_tag_id') }}";
+      const modal = new bootstrap.Modal(document.getElementById(modalId));
+      modal.show();
+    });
+  </script>
+@endif
+
 @endsection
 
 @push('scripts')
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
     $(document).ready(function() {
       $('#tag-table').DataTable();
@@ -119,6 +182,26 @@
   </script>
 
   <script>
+    function disableEditButton() {
+      const editButton = document.getElementById('edit-btn');
+      const spinnerEdit = document.getElementById('loadingEdit-spinner');
+      const buttonEditText = document.getElementById('buttonEdit-text');
+      const editIcon = document.getElementById('edit-icon');
+
+      editButton.disabled = true;
+      spinnerEdit.style.display = 'inline-block';
+
+      if (buttonEditText) {
+        buttonEditText.textContent = 'Edit...';
+      }
+
+      if (editIcon) {
+        editIcon.style.display = 'none';
+      }
+    }
+  </script>
+
+  <script>
     function confirmDelete(event, tagId) {
       event.preventDefault();
       Swal.fire({
@@ -136,11 +219,5 @@
         }
       });
     }
-  </script>
-
-  <script>
-    $(document).ready(function () {
-      $('[data-bs-toggle="tooltip"]').tooltip();
-    });
   </script>
 @endpush

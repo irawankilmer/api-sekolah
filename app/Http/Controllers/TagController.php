@@ -30,28 +30,19 @@ class TagController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id): View
-    {
-      $tag = Tag::find($id);
-      $tags = Tag::orderBy('updated_at', 'DESC')->get();
-
-      return view('tag.edit', compact(['tags', 'tag']));
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(StoreTagRequest $request, string $id)
     {
-        $tag = Tag::findOrFail($id);
-        $tag->update([
-          'name'  => $request->get('name'),
-          'description'  => $request->get('description'),
-        ]);
+      $data = $request->validated()['edit'];
 
-        return redirect()->route('sys.tag')->with('success', 'Tag berhasil diubah!!');
+      $tag = Tag::findOrFail($id);
+      $tag->update([
+        'name' => $data['name'],
+        'description' => $data['description'] ?? null,
+      ]);
+
+      return redirect()->route('sys.tag')->with('success', 'Tag berhasil diubah!!');
     }
 
     /**
